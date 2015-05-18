@@ -1,0 +1,22 @@
+docker:
+  host: "https://boot2docker:2376"
+  ssl_verify_peer: false
+
+stacks:
+  - name: consul-stack
+    description: A demo consul stack with one master and two agents
+    units:
+      - name: master
+        version: 1.0.0
+        docker_image: progrium/consul:latest
+        start_args: "-server -bootstrap -ui-dir /ui"
+        ports:
+          - 8500:8500
+          - 8600:53/udp
+      - name: agent
+        version: 1.0.0
+        instances: 2
+        docker_image: progrium/consul:latest
+        start_args: "-server -join master"
+        dependant_unit_names:
+          - master

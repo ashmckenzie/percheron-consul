@@ -1,0 +1,48 @@
+# Percheron consul Stack
+
+This repo contains a consul stack for use with [Percheron](https://github.com/ashmckenzie/percheron).
+
+## Containers included
+
+* master - Runs consul server + UI
+* agent (2) - Runs consul agent
+
+## Dependancies
+
+* [Percheron](https://github.com/ashmckenzie/percheron)
+* [Boot2Docker v1.6.x+](https://docs.docker.com/installation)
+* [Docker client](https://docs.docker.com/installation) (nice to have)
+
+## Quickstart
+
+Start boot2docker
+
+````shell
+boot2docker up && eval $(boot2docker shellinit) && export BOOT2DOCKER_IP=$(boot2docker ip)
+```
+
+Clone the percheron-consul repo
+
+```shell
+git clone https://github.com/ashmckenzie/percheron-consul
+```
+
+Run Percheron!
+
+```shell
+cd percheron-consul && bundle install && bundle exec percheron start consul-stack
+```
+
+Bring up the consul UI
+
+```bash
+open http://boot2docker:8500/ui
+```
+
+Perform some DNS lookups
+
+```bash
+dig @boot2docker -p 8600 master.node.consul +short
+dig @boot2docker -p 8600 agent1.node.consul +short
+dig @boot2docker -p 8600 agent2.node.consul +short
+```
