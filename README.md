@@ -33,16 +33,26 @@ Run Percheron!
 cd percheron-consul && bundle install && bundle exec percheron start consul-stack
 ```
 
-Bring up the consul UI
+Ensure consul is running
 
 ```bash
-open http://boot2docker:8500/ui
+curl http://boot2docker:8500/v1/catalog/nodes
+
+[{"Node":"agent1","Address":"172.17.0.5"},{"Node":"agent2","Address":"172.17.0.6"},{"Node":"master","Address":"172.17.0.4"}]
 ```
 
 Perform some DNS lookups
 
 ```bash
-dig @boot2docker -p 8600 master.node.consul +short
-dig @boot2docker -p 8600 agent1.node.consul +short
-dig @boot2docker -p 8600 agent2.node.consul +short
+dig @boot2docker -p 8600 master.node.consul agent1.node.consul agent2.node.consul +short
+
+172.17.0.7
+172.17.0.8
+172.17.0.9
+```
+
+Bring up the consul UI
+
+```bash
+open http://boot2docker:8500/ui
 ```
